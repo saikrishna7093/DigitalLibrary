@@ -3,6 +3,7 @@ package com.saikrishnapannela.digitallibrary
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -202,10 +203,12 @@ fun GoInScreen() {
 
                                 email.isBlank() -> {
                                     errorMessage = "Please enter your email."
+                                    Toast.makeText(context, "Please enter your email.", Toast.LENGTH_SHORT).show()
                                 }
 
                                 password.isBlank() -> {
                                     errorMessage = "Please enter your password."
+                                    Toast.makeText(context, "Please enter your password.", Toast.LENGTH_SHORT).show()
                                 }
 
 
@@ -214,6 +217,8 @@ fun GoInScreen() {
                                     errorMessage = ""
 
 
+                                    context.startActivity(Intent(context, LibraryHomeActivity::class.java))
+                                    (context as Activity).finish()
 
                                 }
                             }
@@ -223,7 +228,8 @@ fun GoInScreen() {
 
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(50.dp),
+                            .height(50.dp)
+                            ,
                         shape = RoundedCornerShape(8.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFBC02D)) // Yellow button
                     ) {
