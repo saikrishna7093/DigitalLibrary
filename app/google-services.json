@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1006044349422",
+    "project_id": "digitallibrary-1c2a4",
+    "storage_bucket": "digitallibrary-1c2a4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1006044349422:android:dd6b9e85fbed75037784ff",
+        "android_client_info": {
+          "package_name": "com.saikrishnapannela.digitallibrary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHPgvwSmYvgV23N52XUgNsKfqGuPS5m5g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,8 +1,10 @@
 package com.saikrishnapannela.digitallibrary
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -18,15 +20,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -39,13 +37,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.google.firebase.database.FirebaseDatabase
 
 class OptInActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,8 +58,7 @@ class OptInActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun OptInScreenP()
-{
+fun OptInScreenP() {
     OptInScreen()
 }
 
@@ -86,29 +85,28 @@ fun OptInScreen() {
                     .clip(RoundedCornerShape(bottomEnd = 32.dp, bottomStart = 32.dp))
                     .background(Color(0xFF6200EE)) // Purple color
             ) {
-                // Image and Arrow Button
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_local_library_36), // Replace with your image
-                    contentDescription = "Login Image",
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .size(150.dp) // Adjust size as needed
-                )
-
-                IconButton(
-                    onClick = { /* Handle click */ },
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(16.dp)
-                        .background(Color(0xFFFBC02D), CircleShape) // Yellow background
-                        .size(40.dp) // Adjust size as needed
+                Column(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack, // Use a forward arrow
-                        contentDescription = "Arrow",
-                        tint = Color.White
+
+                    Image(
+                        painter = painterResource(id = R.drawable.baseline_local_library_36), // Replace with your image
+                        contentDescription = "Login Image",
+                        modifier = Modifier
+                            .size(150.dp) // Adjust size as needed
                     )
+
+                    Text(
+                        text = "Student Registration",
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center,
+                        color = Color.White
+                    )
+
                 }
+
+
             }
 
             // Login Form Section
@@ -165,6 +163,8 @@ fun OptInScreen() {
 
                     // Password Basic TextField
                     var password by remember { mutableStateOf("") }
+                    var confirmPassword by remember { mutableStateOf("") }
+
                     var passwordVisible by remember { mutableStateOf(false) }
                     TextField(
                         value = password,
@@ -193,8 +193,8 @@ fun OptInScreen() {
 
 
                     TextField(
-                        value = password,
-                        onValueChange = { password = it },
+                        value = confirmPassword,
+                        onValueChange = { confirmPassword = it },
                         label = { Text("Confirm Password") },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -224,7 +224,13 @@ fun OptInScreen() {
 
                     // Login Button
                     Button(
-                        onClick = { /* Handle click */ },
+                        onClick = {
+                            val studentLibraryData = StudentLibraryData(
+                                FullName, email, password, confirmPassword
+                            )
+
+                            OptInToDatabse(studentLibraryData, context)
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp),
@@ -274,22 +280,53 @@ fun OptInScreen() {
     }
 }
 
-@Composable
-fun SocialSignUpIcon(iconPainter: Painter) {
-    Box(
-        modifier = Modifier
-            .size(50.dp)
-            .clip(CircleShape)
-            .background(Color.LightGray) // Light gray background
-            .clickable { /* Handle Social Login */ },
-        contentAlignment = Alignment.Center
-    ) {
-        Icon(
-            painter = iconPainter,
-            contentDescription = null,
-            modifier = Modifier.size(24.dp),
-            tint = Color.Unspecified
-        )
+fun OptInToDatabse(studentLibraryData: StudentLibraryData, context: Context) {
+
+    if (studentLibraryData.fullName.isEmpty()) {
+        Toast.makeText(context, "Full Name Missing", Toast.LENGTH_SHORT).show()
+    } else if (studentLibraryData.email.isEmpty()) {
+        Toast.makeText(context, "Email Missing", Toast.LENGTH_SHORT).show()
+
+    } else if (studentLibraryData.password.isEmpty()) {
+        Toast.makeText(context, "Password is Missing", Toast.LENGTH_SHORT).show()
+    } else if (studentLibraryData.password != studentLibraryData.confirmPassword) {
+        Toast.makeText(context, "Passwords doesn't match", Toast.LENGTH_SHORT).show()
+    } else {
+        val firebaseDatabase = FirebaseDatabase.getInstance()
+        val databaseReference = firebaseDatabase.getReference("LibraryData")
+
+        databaseReference.child(studentLibraryData.email.replace(".", ","))
+            .setValue(studentLibraryData)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(context, "You Registered Successfully", Toast.LENGTH_SHORT)
+                        .show()
+                    context.startActivity(Intent(context, GoInActivity::class.java))
+                    (context as Activity).finish()
+
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Failed to Register",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(
+                    context,
+                    "Failed to Register",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 }
+
+data class StudentLibraryData(
+    var fullName: String = "",
+    var email: String = "",
+    var password: String = "",
+    var confirmPassword: String = "",
+)
+
 

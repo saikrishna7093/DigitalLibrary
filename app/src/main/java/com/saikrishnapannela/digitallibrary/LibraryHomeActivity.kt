@@ -1,5 +1,6 @@
 package com.saikrishnapannela.digitallibrary
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -92,7 +93,7 @@ fun LibraryHomeScreen() {
                 }
 
                 IconButton(
-                    onClick = { /* Handle click */ },
+                    onClick = { context.startActivity(Intent(context,ProfileActivity::class.java)) },
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .padding(16.dp)
@@ -137,6 +138,12 @@ fun LibraryHomeScreen() {
                                 .width(100.dp)
                                 .height(100.dp)
                                 .clickable {
+                                    context.startActivity(
+                                        Intent(
+                                            context,
+                                            SearchTopicsActivity::class.java
+                                        )
+                                    )
                                 },
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -162,11 +169,17 @@ fun LibraryHomeScreen() {
                                 .width(100.dp)
                                 .height(100.dp)
                                 .clickable {
+                                    context.startActivity(
+                                        Intent(
+                                            context,
+                                            EbookActivity::class.java
+                                        )
+                                    )
                                 },
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Image(
-                                painter = painterResource(id = R.drawable.ratings),
+                                painter = painterResource(id = R.drawable.e_book),
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
@@ -177,7 +190,7 @@ fun LibraryHomeScreen() {
 
 
                             Text(
-                                text = "Feedback",
+                                text = "E-book FAQ's",
                                 fontSize = 12.sp,
                                 textAlign = TextAlign.Center
                             )
