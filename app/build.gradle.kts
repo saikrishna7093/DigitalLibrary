@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.saikrishnapannela.digitallibrary"
+    namespace = "digitallibrary.by.s3302092saikrishnapannela"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.saikrishnapannela.digitallibrary"
+        applicationId = "digitallibrary.by.s3302092saikrishnapannela"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

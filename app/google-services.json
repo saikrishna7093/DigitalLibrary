@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "1006044349422",
+    "firebase_url": "https://digitallibrary-1c2a4-default-rtdb.firebaseio.com",
     "project_id": "digitallibrary-1c2a4",
     "storage_bucket": "digitallibrary-1c2a4.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1006044349422:android:dd6b9e85fbed75037784ff",
+        "mobilesdk_app_id": "1:1006044349422:android:fff6f07080dec3597784ff",
         "android_client_info": {
-          "package_name": "com.saikrishnapannela.digitallibrary"
+          "package_name": "digitallibrary.by.s3302092saikrishnapannela"
         }
       },
       "oauth_client": [],

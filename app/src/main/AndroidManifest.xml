@@ -13,28 +13,31 @@
         android:theme="@style/Theme.DigitalLibrary"
         tools:targetApi="31">
         <activity
-            android:name=".ProfileActivity"
+            android:name="digitallibrary.by.s3302092saikrishnapannela.DetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".EbookActivity"
+            android:name="digitallibrary.by.s3302092saikrishnapannela.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".BookDetailsActivity"
+            android:name="digitallibrary.by.s3302092saikrishnapannela.EbookActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchTopicsActivity"
+            android:name="digitallibrary.by.s3302092saikrishnapannela.BookDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".LibraryHomeActivity"
+            android:name="digitallibrary.by.s3302092saikrishnapannela.SearchTopicsActivity"
             android:exported="false" />
         <activity
-            android:name=".OptInActivity"
+            android:name="digitallibrary.by.s3302092saikrishnapannela.LibraryHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".GoInActivity"
+            android:name="digitallibrary.by.s3302092saikrishnapannela.OptInActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="digitallibrary.by.s3302092saikrishnapannela.GoInActivity"
+            android:exported="false" />
+        <activity
+            android:name="digitallibrary.by.s3302092saikrishnapannela.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.DigitalLibrary">
